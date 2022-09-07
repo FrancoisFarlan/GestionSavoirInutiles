@@ -1,0 +1,13 @@
+.pSavoir {
+    font-size: 2rem;
+    margin : 8px;
+}
+
+.pInfos {
+    font-size : 0.8rem;
+    margin : 8px;
+}
+
+li {
+    cursor:pointer;
+}
