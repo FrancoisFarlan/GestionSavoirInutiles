@@ -1,26 +1,46 @@
 
+//Classe SavoirInutile
+function SavoirInutile(savoir, auteur, date) {
+    this.savoir = savoir || "";
+    this.auteur = auteur || "";
+    this.date = date || new Date();
+}
 
-function chargementTermine() {
-    document.querySelector("#date").valueAsDate=new Date();
+//méthode pour vérifier que tous les champs sont remplis
+SavoirInutile.prototype.tousLesChampsSontRemplis = function () {
+    return this.savoir != "" && this.auteur != "" && this.date != "";
+}
+
+//méthode pour obtenir les informations du savoirInutile
+SavoirInutile.prototype.recupererInformations = function() {
+    let jour = this.date.getDate().toString().padStart(2, "0");
+    let mois = (this.date.getMonth() + 1).toString().padStart(2,"0");
+    let annee = this.date.getFullYear();
+
+    return `Par ${this.auteur}, le ${jour}/${mois}/${annee}`;
+}
+
+//fonction à charger au lancement de la page
+function reinitialiserSavoir() {
+    let savoirInutile = new SavoirInutile();
+    document.querySelector("#savoir").value=savoirInutile.savoir;
+    document.querySelector("#auteur").value=savoirInutile.auteur;
+    document.querySelector("#date").valueAsDate=savoirInutile.date;
     document.querySelector("#savoir").focus();
 }
-function tousLesChampsSontRemplis(savoir, auteur, date) {
-    return savoir != "" && auteur != "" && date != "";
-}
 
+//event listener bouton ajouter
 document.querySelector("#valider").addEventListener("click", ajouter);
 
+
+//fonction ajouter
 function ajouter() {
 
-    let savoir = document.querySelector("#savoir").value;
-    let auteur = document.querySelector("#auteur").value;
-    let date = document.querySelector("#date").valueAsDate;
+    let savoirInutile = new SavoirInutile(document.querySelector("#savoir").value,
+        document.querySelector("#auteur").value,
+        document.querySelector("#date").valueAsDate);
 
-    if (tousLesChampsSontRemplis(savoir, auteur, date)) {
-
-        let jour = date.getDate().toString().padStart(2, "0");
-        let mois = (date.getMonth() + 1).toString().padStart(2,"0");
-        let annee = date.getFullYear();
+    if (savoirInutile.tousLesChampsSontRemplis()) {
 
         let liSavoir = document.createElement("li");
         let pSavoir = document.createElement("p");
@@ -28,8 +48,8 @@ function ajouter() {
         let pInfos = document.createElement("p");
         pInfos.className = "pInfos";
 
-        pSavoir.innerText = savoir;
-        pInfos.innerText = `Par ${auteur}, le ${jour}/${mois}/${annee}`;
+        pSavoir.innerText = savoirInutile.savoir;
+        pInfos.innerText = savoirInutile.recupererInformations();
         liSavoir.addEventListener("click", supprimer);
 
         let olSavoir = document.querySelector("#listeSavoirs");
@@ -37,9 +57,7 @@ function ajouter() {
         liSavoir.appendChild(pSavoir);
         liSavoir.appendChild(pInfos);
 
-        document.getElementById("savoir").value = "";
-        document.getElementById("auteur").value = "";
-        document.getElementById("date").valueAsDate = new Date();
+        reinitialiserSavoir();
 
     } else {
         alert("Tous les champs sont obligatoires");
@@ -47,6 +65,7 @@ function ajouter() {
     document.querySelector("#savoir").focus();
 }
 
+//fonction supprimer
 function supprimer() {
 
     if(confirm(`Voulez-vous supprimer ce savoir ?`))
