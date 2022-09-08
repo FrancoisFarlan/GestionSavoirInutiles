@@ -32,7 +32,8 @@ function reinitialiserSavoir() {
 //event listener bouton ajouter
 document.querySelector("#valider").addEventListener("click", ajouter);
 
-
+//création tableau savoirs
+var tableauSavoirs = new Array();
 //fonction ajouter
 function ajouter() {
 
@@ -40,22 +41,13 @@ function ajouter() {
         document.querySelector("#auteur").value,
         document.querySelector("#date").valueAsDate);
 
+
+
     if (savoirInutile.tousLesChampsSontRemplis()) {
 
-        let liSavoir = document.createElement("li");
-        let pSavoir = document.createElement("p");
-        pSavoir.className = "pSavoir";
-        let pInfos = document.createElement("p");
-        pInfos.className = "pInfos";
-
-        pSavoir.innerText = savoirInutile.savoir;
-        pInfos.innerText = savoirInutile.recupererInformations();
-        liSavoir.addEventListener("click", supprimer);
-
-        let olSavoir = document.querySelector("#listeSavoirs");
-        olSavoir.appendChild(liSavoir);
-        liSavoir.appendChild(pSavoir);
-        liSavoir.appendChild(pInfos);
+        //ajout au tableau
+        tableauSavoirs.push(savoirInutile);
+        afficherTableauSavoirs();
 
         reinitialiserSavoir();
 
@@ -65,11 +57,61 @@ function ajouter() {
     document.querySelector("#savoir").focus();
 }
 
+//afficher tableau savoirs
+function afficherTableauSavoirs() {
+    supprimerTousLesSavoirs();
+    tableauSavoirs.forEach(element => {
+        let liSavoir = document.createElement("li");
+        let pSavoir = document.createElement("p");
+        pSavoir.className = "pSavoir";
+        let pInfos = document.createElement("p");
+        pInfos.className = "pInfos";
+
+        pSavoir.innerText = element.savoir;
+        pInfos.innerText = element.recupererInformations();
+        liSavoir.addEventListener("click", supprimer);
+
+        let olSavoir = document.querySelector("#listeSavoirs");
+        olSavoir.appendChild(liSavoir);
+        liSavoir.appendChild(pSavoir);
+        liSavoir.appendChild(pInfos);
+
+    });
+}
+
+//trier par ordre chronologique
+function ordreChronologique() {
+    supprimerTousLesSavoirs();
+
+    tableauSavoirs.sort(function(a,b){
+        return new Date(a.date) - new Date(b.date);
+    });
+
+    afficherTableauSavoirs();
+}
+
+//trier auteur par ordre alphabétiques
+function ordreAlphabetiqueParAuteur() {
+    supprimerTousLesSavoirs();
+    tableauSavoirs.sort(function (a, b) {
+        return ('' + a.auteur).localeCompare(b.auteur);
+    })
+
+    afficherTableauSavoirs();
+}
+//fonction supprimerTousLesSavoirs
+function supprimerTousLesSavoirs() {
+    document.querySelector("#listeSavoirs").innerHTML="";
+}
+
 //fonction supprimer
 function supprimer() {
 
     if(confirm(`Voulez-vous supprimer ce savoir ?`))
     {
-        this.parentNode.removeChild(this);
+        supprimerTousLesSavoirs();
+        let index = event.currentTarget.id;
+        tableauSavoirs.splice(index,1);
+        afficherTableauSavoirs();
     }
 }
