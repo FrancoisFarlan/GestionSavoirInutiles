@@ -31,8 +31,8 @@
     </div>
 
     <div class="text-center mb-3">
-        <button type="button" id="classementParAuteur" class="btn btn-primary mt-4 me-2 w-25" onclick="ordreAlphabetiqueParAuteur()">Trier par Auteur</button>
-        <button type="button" id="classementParDate" class="btn btn-primary mt-4 ms-2 w-25" onclick="ordreChronologique()">Trier par ordre chronologique</button>
+        <button type="button" id="classementParAuteur" class="btn btn-primary mt-4 me-2 w-25" onclick="controller.trierParAuteurParOrdreAlphabetique()">Trier par Auteur</button>
+        <button type="button" id="classementParDate" class="btn btn-primary mt-4 ms-2 w-25" onclick="controller.trierParOrdreChronologique()">Trier par ordre chronologique</button>
 
 
     </div>
@@ -42,7 +42,8 @@
 
 </ol>
 </div>
-<script src="script.js"></script>
+<script src="bo.js"></script>
+<script src="service.js"></script>
+<script src="controller.js"></script>
 </body>
 </html>
-<script>reinitialiserSavoir();</script>
