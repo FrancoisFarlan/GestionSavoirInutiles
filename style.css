@@ -12,3 +12,18 @@ li {
     cursor:pointer;
 }
 
+#listeSavoirs {
+    display : flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style-type: none;
+
+}
+
+#listeSavoirs li {
+    margin : 15px;
+    padding : 8px;
+    border : 0px solid black;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}

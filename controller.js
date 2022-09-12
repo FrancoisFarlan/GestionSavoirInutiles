@@ -61,7 +61,7 @@ let controller = (
         controller.supprimerSavoir = function(event)
         {
             let index = event.currentTarget.id;
-            if(confirm(`Voulez-vous supprimer ce savoir"?`))
+            if(confirm(`Voulez-vous supprimer ce savoir?`))
             {
                 service.supprimerSavoir(index);
                 controller.afficherTableauSavoirs();
