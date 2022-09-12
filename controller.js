@@ -32,7 +32,7 @@ let controller = (
 
                 liSavoir.id = index;
                 pSavoir.innerText = element.savoir;
-                pInfos.innerText = element.recupererInformations();
+                pInfos.innerText = element.informations;
                 liSavoir.addEventListener("click", controller.supprimerSavoir);
 
                 listeSavoirs.appendChild(liSavoir);
